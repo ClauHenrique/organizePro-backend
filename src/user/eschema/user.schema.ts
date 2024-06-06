@@ -11,6 +11,14 @@ export class User extends Document {
 
   @Prop()
   email: string;
+
+
+  // constructor(user?: Partial<User>) {
+  //   super()
+  //   this.name = user?.name;
+  //   this.password = user?.password;
+  //   this.email = user?.email;
+  // }
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
