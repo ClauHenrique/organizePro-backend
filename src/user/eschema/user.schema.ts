@@ -10,15 +10,7 @@ export class User extends Document {
   password: string;
 
   @Prop()
-  email: string;
-
-
-  // constructor(user?: Partial<User>) {
-  //   super()
-  //   this.name = user?.name;
-  //   this.password = user?.password;
-  //   this.email = user?.email;
-  // }
+  email: string;z
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

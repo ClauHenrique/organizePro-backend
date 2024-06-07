@@ -6,6 +6,7 @@ import { User } from './eschema/user.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
+
 @Injectable()
 export class UserService {
 
@@ -15,14 +16,14 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-
+      
       // criptografar a senha
       const hash = await bcrypt.hash(createUserDto.password, 8);
       createUserDto.password = hash
 
       const createdUser = new this.userModel(createUserDto);
 
-      return createdUser.save();
+      return await createdUser.save();
     }
     catch(err) {
         throw new Error(`Unable to register user. ${err}`)
@@ -33,8 +34,13 @@ export class UserService {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(email: string): Promise<User> {
+    try {
+      return await this.userModel.findOne({email})
+
+    } catch (err) {
+      throw new Error(`Unable to perform user search operation. ${err}`)
+    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

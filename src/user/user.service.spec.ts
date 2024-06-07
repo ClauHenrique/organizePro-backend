@@ -61,9 +61,11 @@ describe('UserService', () => {
   });
 
   it('find user by id', async () => {
-    const user = service.findOne(1);
-
-    expect(user).toEqual(`This action returns a #1 user`);
+    const user = await service.findOne('1');
+    
+    expect(user).toEqual(
+      { name: 'Paul', password: 'j7ldd@bbb', email: 'paul@gmail.com' }
+    );
   });
 
  
