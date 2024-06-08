@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
-import * as bcrypt from 'bcrypt';
 import { UnauthorizedException } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/eschema/user.schema';
@@ -70,16 +69,26 @@ describe('AuthService', () => {
     };
 
     await userService.create(createUserDto);
-
+    
     await expect(authService.signIn({
-      password: "j7ldd@bbb",
+      password: "12345678",
       email: "paul@gmail.com"
     })).rejects.toThrow(UnauthorizedException);
   });
 
-  // it('should throw an error for non-existent email', async () => {
-  //   const loginUserDto = { email: 'nonexistent@example.com', password: 'password' };
+  it('should throw an error for non-existent email', async () => {
 
-  //   await expect(authService.signIn(loginUserDto)).rejects.toThrow(UnauthorizedException);
-  // });
+    const createUserDto = {
+      name: "Paul",
+      password: "j7ldd@bbb",
+      email: "paul@gmail.com"
+    };
+
+    await userService.create(createUserDto);
+
+    await expect(authService.signIn({
+       email: 'naoexiste@gmail.com', 
+       password: 'paul@gmail.com' 
+      })).rejects.toThrow(UnauthorizedException);
+  });
 });
