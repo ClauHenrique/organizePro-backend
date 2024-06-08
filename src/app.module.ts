@@ -8,7 +8,7 @@ import 'dotenv/config'
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot(process.env.DB_HOST),
   UserModule,
   AuthModule
   ],
