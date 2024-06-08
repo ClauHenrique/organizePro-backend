@@ -27,10 +27,6 @@ jobs:
       - name: Build and run Docker Compose
         run: docker-compose up --build -d
 
-      - name: Wait for Nest.js to be ready
-        run: |
-          while ! curl -s http://localhost:3000/health; do sleep 1; done
-
       - name: Run tests
         run: docker-compose exec app npm run test
 
