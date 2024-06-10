@@ -1,4 +1,4 @@
-
+### ` Status: em desenvolvimento... `
 # 📜 Sobre
 Este projeto é a parte backend de um sistema de gerenciamento de tarefas. Esse sistema está sendo construído com o objetivo de ser utilizado como parte do meu portfólio pessoal.
 
@@ -11,13 +11,12 @@ Sim! Apesar de sistemas de gerenciamento de tarefas serem algo bem clichê, este
   - A senha deve conter caracteres especiais, no mínimo 8 e no máximo 15 caracteres.
   - Criptografar a senha e salvá-la no banco de dados.
     
-  Exemplos:
-# 📑 Principais funcionalidades
+  Incorreto:
   - 👤 Nome: `joao`  ❌ este usuário já existe.
   - 📧 Email: `joao.com`  ❌ esta não é a estrutura de um email válido.
   - 🔒 Senha: `123456`  ❌ a senha deve conter de 8 a 15 caracteres, incluindo letras, símbolos e números.
- 
-  Exemplos:
+  - 
+  Correto:
   - 👤 Nome: `Mateus`  ✅
   - 📧 Email: `mateus@email.com`  ✅
   - 🔒 Senha: `mat@1234&@!`  ✅
