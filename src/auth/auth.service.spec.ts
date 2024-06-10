@@ -1,76 +1,94 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
-import * as bcrypt from 'bcrypt'
 import { UnauthorizedException } from '@nestjs/common';
-
-// gerar hash de senha para testes
-const password = 'j7ldd@bbb';
-const hash = bcrypt.hashSync(password, 8);
-
-const mockJwtService = {
-  signAsync: jest.fn().mockResolvedValue('mockedJwtToken'),
-  verify: jest.fn().mockReturnValue({ userId: '1' }),
-};
-
-// banco de dados
-const mockUserService = {
-  findOne: jest.fn().mockResolvedValue({
-    _id: '1',
-    email: 'test@example.com',
-    password: hash,
-  }),
-};
-
+import { MongooseModule, getModelToken } from '@nestjs/mongoose';
+import { User, UserSchema } from '../user/eschema/user.schema';
+import { Model } from 'mongoose';
 
 
 describe('AuthService', () => {
-  let service: AuthService;
+  let authService: AuthService;
+  let userService: UserService;
+  let jwtService: JwtService;
+  let module: TestingModule;
+  let userModel: Model<User>;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService,
-        {
-          provide: JwtService,
-          useValue: mockJwtService,
-        },
-        {
-          provide: UserService,
-          useValue: mockUserService,
-        },
+    module = await Test.createTestingModule({
+      imports: [
+        MongooseModule.forRoot('mongodb://mongo:27017/mydb'),
+        MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+        JwtModule.register({
+          secret: "dhh7824dwedhqhk378d23",
+          signOptions: { expiresIn: '24h' },
+        }),
       ],
+      providers: [AuthService, UserService],
     }).compile();
 
-    service = module.get<AuthService>(AuthService);
+    authService = module.get<AuthService>(AuthService);
+    userService = module.get<UserService>(UserService);
+    jwtService = module.get<JwtService>(JwtService);
+    userModel = module.get<Model<User>>(getModelToken('User'));
+  });
+
+  afterEach(async () => {
+    await userModel.deleteMany({});
+    await module.close();
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(authService).toBeDefined();
   });
 
   it('should return a JWT token for valid credentials', async () => {
-    const loginUserDto = { email: 'test@example.com', password: 'j7ldd@bbb' };
-    jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+    const createUserDto = {
+      name: "Paul",
+      password: "j7ldd@bbb",
+      email: "paul@gmail.com"
+    };
 
-    const result = await service.signIn(loginUserDto);
+    await userService.create(createUserDto);
     
-    expect(result).toEqual({ access_token: 'mockedJwtToken' });
+    const result = await authService.signIn({
+      email: 'paul@gmail.com', 
+      password: 'j7ldd@bbb'
+    });
+  
+    
+    expect(result).toHaveProperty('access_token');
   });
 
-  // it('return an exception for incorrect email', async () => {
-  //   const loginUserDto = { email: 'incorrect@example.com', password: 'j7ldd@bbb' };
-  
-  //   await expect(service.signIn(loginUserDto)).rejects.toThrow(UnauthorizedException);
-  // });
+  it('should throw an error for invalid password', async () => {
+    const createUserDto = {
+      name: "Paul",
+      password: "j7ldd@bbb",
+      email: "paul@gmail.com"
+    };
 
-  it('return an exception for invalid password', async () => {
-    const loginUserDto = { email: 'test@example.com', password: '123456' };
-    jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
-  
-    await expect(service.signIn(loginUserDto)).rejects.toThrow(UnauthorizedException);
+    await userService.create(createUserDto);
+    
+    await expect(authService.signIn({
+      password: "12345678",
+      email: "paul@gmail.com"
+    })).rejects.toThrow(UnauthorizedException);
   });
-  
 
+  it('should throw an error for non-existent email', async () => {
+
+    const createUserDto = {
+      name: "Paul",
+      password: "j7ldd@bbb",
+      email: "paul@gmail.com"
+    };
+
+    await userService.create(createUserDto);
+
+    await expect(authService.signIn({
+       email: 'naoexiste@gmail.com', 
+       password: 'paul@gmail.com' 
+      })).rejects.toThrow(UnauthorizedException);
+  });
 });
