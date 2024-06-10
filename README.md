@@ -1,4 +1,4 @@
-
+### ` Status: em desenvolvimento... `
 # 📜 Sobre
 Este projeto é a parte backend de um sistema de gerenciamento de tarefas. Esse sistema está sendo construído com o objetivo de ser utilizado como parte do meu portfólio pessoal.
 
