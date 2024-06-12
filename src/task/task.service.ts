@@ -14,18 +14,11 @@ export class TaskService {
   ){}
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
-    const {startDate, endDate} = createTaskDto
+    const {startDate, endDate, userId} = createTaskDto
 
-    const scheduledTaskAtGivenTime = await this.taskModel.find({
-      $or: [
-        { $and: [{startDate: { $lte: startDate}}, {endDate: { $gte: endDate}}]}, //datas conflitantes (inicio e fim) são as mesmas
-        { $and: [{startDate: { $lt: endDate}}, {endDate: { $gte: endDate}}]}, // o teminio de um tarefa está entre o inicio e o fim de uma outra tarefa
-        { $and: [{startDate: { $lte: startDate}}, {endDate: { $gt: startDate}}]}, // o inicio de uma tarefa está entre o inicio e o fim de outra
-        { $and: [{startDate: { $gte: startDate}}, {endDate: { $lte: endDate}}]}, // uma tarefa começa antes e termina depois de outra tarefa
-      ]
-    })
-    
-    if (scheduledTaskAtGivenTime.length > 0) {
+    const verifyTime = await this.scheduledTaskAtGivenTime(startDate, endDate, userId)
+   
+    if (verifyTime.length > 0) {
       throw new TaskSchedulingConflictException()
     }
 
@@ -34,19 +27,64 @@ export class TaskService {
     return createdTask.save();
   }
 
-  findAll() {
-    return `This action returns all task`;
+  async scheduledTaskAtGivenTime(startDate: Date, endDate: Date, userId: string): Promise<Task[]> {
+
+    const find = await this.taskModel.find({
+      $and: [
+        {userId: userId},
+        {
+        $or: [
+          { $and: [{startDate: { $lte: startDate}}, {endDate: { $gte: endDate}}]}, //datas conflitantes (inicio e fim) são as mesmas
+          { $and: [{startDate: { $lt: endDate}}, {endDate: { $gte: endDate}}]}, // o teminio de um tarefa está entre o inicio e o fim de uma outra tarefa
+          { $and: [{startDate: { $lte: startDate}}, {endDate: { $gt: startDate}}]}, // o inicio de uma tarefa está entre o inicio e o fim de outra
+          { $and: [{startDate: { $gte: startDate}}, {endDate: { $lte: endDate}}]}, // uma tarefa começa antes e termina depois de outra tarefa
+        ]
+      }
+      ]
+    }).exec()
+
+    return find
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+
+  findAll(userId: string): Promise<Task[]> {
+
+    return this.taskModel.find({userId}).exec()
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+
+  async updateTask(userId: string, taskId: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+
+    const {startDate, endDate} = updateTaskDto
+
+    const verifyTask = await this.scheduledTaskAtGivenTime(startDate, endDate, userId)
+    
+    if (verifyTask.length > 0) {
+     
+      if ( // nao retornar a exceção caso esteja autualizando a propia task
+          verifyTask.length > 1 &&
+          verifyTask[0]._id.toString() !== taskId
+      ) {
+        throw new TaskSchedulingConflictException() 
+      }
+    }
+    
+    return this.taskModel.findOneAndUpdate(
+      {
+        $and: [
+          {userId: userId},
+          {_id: taskId}
+        ]
+      },
+      updateTaskDto,
+      {returnOriginal: false}
+    ).exec()
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  remove(taskId: string): Promise<Task> {
+    return this.taskModel.findOneAndDelete({
+      _id: taskId
+    })
   }
 }
