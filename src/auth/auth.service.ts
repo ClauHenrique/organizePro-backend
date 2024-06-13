@@ -27,7 +27,7 @@ export class AuthService {
     
         const validatePassword = await bcrypt.compare(login.password, user.password);
 
-        console.log("valid >>>>", validatePassword);
+        console.log("validar >>>>", validatePassword);
         
 
         if (!validatePassword) {
@@ -35,7 +35,10 @@ export class AuthService {
         }
 
         const payload = { email: user.email, sub: user._id };
-        console.log("retorna o payload!!!!!");
+
+        const a = await this.jwtService.signAsync(payload)
+        console.log(">>>payload>>>", a);
+         
         
 
         return {
