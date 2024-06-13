@@ -58,7 +58,7 @@ describe('AuthController', () => {
       email: "claudio@gmail.com"
     };
 
-    await userModel.create(createUserDto);  
+    const create = await userModel.create(createUserDto);  
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
@@ -68,6 +68,8 @@ describe('AuthController', () => {
       })
       // .expect(200);
       console.log(response.body);
+      console.log(create);
+      
       
 
     // expect(response.body).toHaveProperty('access_token');
