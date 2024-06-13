@@ -58,7 +58,7 @@ describe('AuthController', () => {
       email: "claudio@gmail.com"
     };
 
-    const create = await userModel.create(createUserDto);  
+    await userModel.create(createUserDto);  
 
     const response = await request(app.getHttpServer())
       .post('/auth/login')
@@ -67,7 +67,7 @@ describe('AuthController', () => {
         password: "j7ldd@bbb",
       })
       // .expect(200);
-      console.log(create);
+      console.log(response);
       
       
 
