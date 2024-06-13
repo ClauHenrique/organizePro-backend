@@ -63,268 +63,268 @@ describe('TaskController', () => {
     expect(controller).toBeDefined();
   });
 
-  // it('/POST do not allow registering a task if the user is not logged in', async () => {
+  it('/POST do not allow registering a task if the user is not logged in', async () => {
       
-  //     const createTaskDto: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //   const response = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer `)
-  //     .send(createTaskDto)
-  //     .expect(401);
-  //     console.log(response.body);
+    const response = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer `)
+      .send(createTaskDto)
+      .expect(401);
+      console.log(response.body);
       
-  //   expect(response.body.message).toBe('Unauthorized');
-  // });
+    expect(response.body.message).toBe('Unauthorized');
+  });
 
-  // it('/POST create task', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+  it('/POST create task', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto);  
+    await userModel.create(createUserDto);  
 
-  //   const { body } = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
-      
-      
-  //     const createTaskDto: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
-
-  //   const response = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(createTaskDto)
-  //     .expect(201);
-
-  //   expect(response.body.title).toBe('task 1');
-  //   expect(response.body.description).toBe('this is a task 1');
-  // });
-
-  // it('/POST should not allow the registration of tasks with conflicting times', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
-
-  //   await userModel.create(createUserDto);  
-
-  //   const { body } = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
+    const { body } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
       
       
-  //     const createTaskDto1: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //   const response = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(createTaskDto1)
-  //     .expect(201);
+    const response = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(createTaskDto)
+      .expect(201);
+
+    expect(response.body.title).toBe('task 1');
+    expect(response.body.description).toBe('this is a task 1');
+  });
+
+  it('/POST should not allow the registration of tasks with conflicting times', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
+
+    await userModel.create(createUserDto);  
+
+    const { body } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
+      
+      
+      const createTaskDto1: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
+
+    const response = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(createTaskDto1)
+      .expect(201);
 
        
-  //     const createTaskDto2: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 2",
-  //       description: "this is a task 2",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto2: CreateTaskDto = {
+        userId: '',
+        title: "task 2",
+        description: "this is a task 2",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //     const response2 = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(createTaskDto2)
-  //     .expect(409);
+      const response2 = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(createTaskDto2)
+      .expect(409);
 
-  //   expect(response2.body.message).toBe('A task is already scheduled at this time.');
-  // });
+    expect(response2.body.message).toBe('A task is already scheduled at this time.');
+  });
 
-  // it('/POST tasks from different users can contain the same time', async () => {
+  it('/POST tasks from different users can contain the same time', async () => {
 
-  //   const createUserDto1 = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+    const createUserDto1 = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto1);
+    await userModel.create(createUserDto1);
 
-  //   const createUserDto2 = {
-  //     name: "John",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "john@gmail.com"
-  //   };
+    const createUserDto2 = {
+      name: "John",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "john@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto2);  
+    await userModel.create(createUserDto2);  
 
-  //   const user1 = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
+    const user1 = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
       
       
-  //     const createTaskDto1: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1 of user 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto1: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1 of user 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //   await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${user1.body.access_token}`)
-  //     .send(createTaskDto1)
-  //     .expect(201);
+    await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${user1.body.access_token}`)
+      .send(createTaskDto1)
+      .expect(201);
 
-  //     const user2 = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "john@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
+      const user2 = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "john@gmail.com",
+        password: "j7ldd@bbb",
+      })
       
       
-  //     const createTaskDto2: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1 of user 2",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto2: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1 of user 2",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //   const response = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${user2.body.access_token}`)
-  //     .send(createTaskDto2)
-  //     .expect(201);
+    const response = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${user2.body.access_token}`)
+      .send(createTaskDto2)
+      .expect(201);
 
-  //     expect(response.body.description).toBe('this is a task 1 of user 2')
+      expect(response.body.description).toBe('this is a task 1 of user 2')
       
-  // })
+  })
 
-  // it('/PATCH update task', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+  it('/PATCH update task', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto);  
+    await userModel.create(createUserDto);  
 
-  //   const { body } = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
-      
-      
-  //     const createTaskDto: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
-
-  //   const res = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(createTaskDto)
-      
-  //     const updateTaskDto: UpdateTaskDto = {
-  //       description: "this is a task 1000000",
-  //     }
-
-  //     const taskId = res.body._id.toString()
-
-  //     const update = await request(app.getHttpServer())
-  //     .patch(`/task/${taskId}`)
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(updateTaskDto)
-  //     .expect(200)
-
-  //     expect(update.body.description).toBe("this is a task 1000000");
-      
-  // });
-
-  // it('/DELETE remove task', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
-
-  //   await userModel.create(createUserDto);  
-
-  //   const { body } = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
+    const { body } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
       
       
-  //     const createTaskDto: CreateTaskDto = {
-  //       userId: '',
-  //       title: "task 1",
-  //       description: "this is a task 1",
-  //       startDate: new Date("2024-05-13T11:30:00.000Z"),
-  //       endDate: new Date("2024-05-13T13:00:00.000Z"),
-  //       priority: 4
-  //     }
+      const createTaskDto: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
 
-  //   const res = await request(app.getHttpServer())
-  //     .post('/task')
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .send(createTaskDto)
+    const res = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(createTaskDto)
       
-  //     const taskId = res.body._id.toString()
+      const updateTaskDto: UpdateTaskDto = {
+        description: "this is a task 1000000",
+      }
 
-  //     await request(app.getHttpServer())
-  //     .delete(`/task/${taskId}`)
-  //     .set('Authorization', `Bearer ${body.access_token}`)
-  //     .expect(200)
+      const taskId = res.body._id.toString()
+
+      const update = await request(app.getHttpServer())
+      .patch(`/task/${taskId}`)
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(updateTaskDto)
+      .expect(200)
+
+      expect(update.body.description).toBe("this is a task 1000000");
       
-  // });
+  });
+
+  it('/DELETE remove task', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
+
+    await userModel.create(createUserDto);  
+
+    const { body } = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
+      
+      
+      const createTaskDto: CreateTaskDto = {
+        userId: '',
+        title: "task 1",
+        description: "this is a task 1",
+        startDate: new Date("2024-05-13T11:30:00.000Z"),
+        endDate: new Date("2024-05-13T13:00:00.000Z"),
+        priority: 4
+      }
+
+    const res = await request(app.getHttpServer())
+      .post('/task')
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .send(createTaskDto)
+      
+      const taskId = res.body._id.toString()
+
+      await request(app.getHttpServer())
+      .delete(`/task/${taskId}`)
+      .set('Authorization', `Bearer ${body.access_token}`)
+      .expect(200)
+      
+  });
 
  
 });

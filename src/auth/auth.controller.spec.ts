@@ -67,7 +67,7 @@ describe('AuthController', () => {
         password: "j7ldd@bbb",
       })
       // .expect(200);
-      console.log(response);
+      console.log(response.body);
       
 
     // expect(response.body).toHaveProperty('access_token');
