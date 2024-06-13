@@ -67,7 +67,7 @@ describe('AuthController', () => {
         password: "j7ldd@bbb",
       })
       // .expect(200);
-      console.log(response.body);
+      console.log("response!!!!! ", response.body);
       
       
 

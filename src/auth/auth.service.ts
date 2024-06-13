@@ -12,9 +12,14 @@ export class AuthService {
 ) {}
 
   async signIn(login: LoginUserDto): Promise<any> {
+    console.log("login >>>>", login);
+    
 
     try {
         const user = await this.usersService.findOne(login.email);
+
+        console.log(">>>>>>", user);
+        
 
         if (!user) {
           throw new UnauthorizedException('invalid credentials');
@@ -22,14 +27,20 @@ export class AuthService {
     
         const validatePassword = await bcrypt.compare(login.password, user.password);
 
+        console.log("valid >>>>", validatePassword);
+        
+
         if (!validatePassword) {
           throw new UnauthorizedException('invalid credentials');
         }
 
         const payload = { email: user.email, sub: user._id };
+        console.log("retorna o payload!!!!!");
+        
 
         return {
-          access_token: await this.jwtService.signAsync(payload),
+          // access_token: await this.jwtService.signAsync(payload),
+          access_token: "oppaaaaa"
         };
 
     }
