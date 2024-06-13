@@ -54,20 +54,4 @@ describe('UserController', () => {
     expect(response.body.email).toBe('paul@gmail.com');
   });
 
-  // it('/GET find user by email', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: "j7ldd@bbb",
-  //     email: "claudio@gmail.com"
-  //   };
-
-  //   await userModel.create(createUserDto);
-
-  //   const response = await request(app.getHttpServer())
-  //     .get(`/users/${createUserDto.email}`)
-  //     .expect(200);
-
-  //   expect(response.body.name).toBe(createUserDto.name);
-  //   expect(response.body.email).toBe(createUserDto.email);
-  // });
 });
