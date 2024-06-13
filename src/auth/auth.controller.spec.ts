@@ -11,6 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { UserModule } from '../user/user.module';
 import * as bcrypt from 'bcrypt';
+import 'dotenv/config'
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -52,6 +53,8 @@ describe('AuthController', () => {
   });
 
   it('/POST auth/login should return JWT token for valid credentials', async () => {
+    console.log("var AMBIENTEEEE: ", process.env.SECRET_KEY);
+    
     const createUserDto = {
       name: "Claudio",
       password: await bcrypt.hash("j7ldd@bbb", 8),
