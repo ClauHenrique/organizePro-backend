@@ -22,6 +22,7 @@ describe('AuthController', () => {
         MongooseModule.forRoot('mongodb://mongo:27017/mydb'),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
         JwtModule.register({
+          global: true,
           secret: 'dhh7824dwedhqhk378d23',
           signOptions: { expiresIn: '24h' },
         }),
