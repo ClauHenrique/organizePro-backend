@@ -22,10 +22,6 @@ export class AuthService {
     
         const validatePassword = await bcrypt.compare(login.password, user.password)
 
-        console.log(validatePassword);
-        
-        
-
         if (!validatePassword) {
           throw new UnauthorizedException('invalid credentials');
         }

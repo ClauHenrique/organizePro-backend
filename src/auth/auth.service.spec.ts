@@ -22,7 +22,7 @@ describe('AuthService', () => {
         MongooseModule.forRoot('mongodb://mongo:27017/mydb'),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
         JwtModule.register({
-          secret: process.env.SECRET_KEY,
+          secret: 'dhh7824dwedhqhk378d23',
           signOptions: { expiresIn: '24h' },
         }),
       ],
