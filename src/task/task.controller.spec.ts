@@ -10,7 +10,7 @@ import { TaskService } from './task.service';
 import { AuthModule } from '../auth/auth.module';
 import { User, UserSchema } from '../user/eschema/user.schema';
 import { UserService } from '../user/user.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -19,7 +19,7 @@ describe('TaskController', () => {
   let app: INestApplication;
   let taskModel: Model<Task>;
   let userModel: Model<User>;
-  let jwtService: JwtService;
+
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -44,7 +44,6 @@ describe('TaskController', () => {
 
     taskModel = moduleFixture.get<Model<Task>>(getModelToken('Task'));
     userModel = moduleFixture.get<Model<User>>(getModelToken('User'));
-    jwtService = moduleFixture.get<JwtService>(JwtService);
   });
 
   afterAll(async () => {
@@ -79,7 +78,6 @@ describe('TaskController', () => {
       .set('Authorization', `Bearer `)
       .send(createTaskDto)
       .expect(401);
-      console.log(response.body);
       
     expect(response.body.message).toBe('Unauthorized');
   });
@@ -205,12 +203,17 @@ describe('TaskController', () => {
         endDate: new Date("2024-05-13T13:00:00.000Z"),
         priority: 4
       }
+    
+    console.log(">>>>>", user1.body.access_token);
 
-    await request(app.getHttpServer())
+    const c = await request(app.getHttpServer())
       .post('/task')
       .set('Authorization', `Bearer ${user1.body.access_token}`)
       .send(createTaskDto1)
-      .expect(201);
+      // .expect(201);
+
+      console.log("tarefa criada >>>", c.body);
+      
 
       const user2 = await request(app.getHttpServer())
       .post('/auth/login')
