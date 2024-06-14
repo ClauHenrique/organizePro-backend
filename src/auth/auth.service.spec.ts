@@ -57,10 +57,6 @@ describe('AuthService', () => {
       email: 'paul@gmail.com', 
       password: 'j7ldd@bbb'
     });
-
-    console.log("::::::: ",result);
-    
-  
     
     expect(result).toHaveProperty('access_token');
   });

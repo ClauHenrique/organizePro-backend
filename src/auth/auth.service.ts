@@ -12,14 +12,9 @@ export class AuthService {
 ) {}
 
   async signIn(login: LoginUserDto): Promise<any> {
-    console.log("login >>>>", login);
-    
 
     try {
-        const user = await this.usersService.findOne(login.email);
-
-        console.log(">>>>>>", user);
-        
+        const user = await this.usersService.findOne(login.email);   
 
         if (!user) {
           throw new UnauthorizedException('invalid credentials');
@@ -36,10 +31,7 @@ export class AuthService {
 
         const payload = { email: user.email, sub: user._id };
 
-        const a = await this.jwtService.signAsync(payload)
-        console.log(">>>payload>>>", a);
-         
-        
+        console.log(">>>payload>>>", payload);
 
         return {
           access_token: await this.jwtService.signAsync(payload),

@@ -52,64 +52,63 @@ describe('AuthController', () => {
     expect(controller).toBeDefined();
   });
 
-  // it('/POST auth/login should return JWT token for valid credentials', async () => {
-  //   console.log("var AMBIENTEEEE: ", process.env.SECRET_KEY);
+  it('/POST auth/login should return JWT token for valid credentials', async () => {
     
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto);  
+    await userModel.create(createUserDto);  
 
-  //   const response = await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
-  //     // .expect(200);
-  //     console.log("response!!!!! ", response.body);
+    const response = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "j7ldd@bbb",
+      })
+      // .expect(200);
+
+      console.log("resultado::::::::", response.body);
       
-      
 
-  //   // expect(response.body).toHaveProperty('access_token');
-  // });
+    // expect(response.body).toHaveProperty('access_token');
+  });
 
-  // it('/POST auth/login should return 401 for invalid password', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+  it('/POST auth/login should return 401 for invalid password', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto);
+    await userModel.create(createUserDto);
 
-  //   await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "claudio@gmail.com",
-  //       password: "senhaerrada",
-  //     })
-  //     .expect(401);
-  // });
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "claudio@gmail.com",
+        password: "senhaerrada",
+      })
+      .expect(401);
+  });
 
-  // it('/POST auth/login should return 401 for non-existent email', async () => {
-  //   const createUserDto = {
-  //     name: "Claudio",
-  //     password: await bcrypt.hash("j7ldd@bbb", 8),
-  //     email: "claudio@gmail.com"
-  //   };
+  it('/POST auth/login should return 401 for non-existent email', async () => {
+    const createUserDto = {
+      name: "Claudio",
+      password: await bcrypt.hash("j7ldd@bbb", 8),
+      email: "claudio@gmail.com"
+    };
 
-  //   await userModel.create(createUserDto);
+    await userModel.create(createUserDto);
 
-  //   await request(app.getHttpServer())
-  //     .post('/auth/login')
-  //     .send({
-  //       email: "naoexiste@gmail.com",
-  //       password: "j7ldd@bbb",
-  //     })
-  //     .expect(401);
-  // });
+    await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: "naoexiste@gmail.com",
+        password: "j7ldd@bbb",
+      })
+      .expect(401);
+  });
 });
