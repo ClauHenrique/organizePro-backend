@@ -11,7 +11,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { UserModule } from '../user/user.module';
 import * as bcrypt from 'bcrypt';
-import 'dotenv/config'
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -23,7 +22,7 @@ describe('AuthController', () => {
         MongooseModule.forRoot('mongodb://mongo:27017/mydb'),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
         JwtModule.register({
-          secret: process.env.SECRET_KEY,
+          secret: 'dhh7824dwedhqhk378d23',
           signOptions: { expiresIn: '24h' },
         }),
         UserModule,
@@ -53,7 +52,6 @@ describe('AuthController', () => {
   });
 
   it('/POST auth/login should return JWT token for valid credentials', async () => {
-    
     const createUserDto = {
       name: "Claudio",
       password: await bcrypt.hash("j7ldd@bbb", 8),
@@ -68,12 +66,9 @@ describe('AuthController', () => {
         email: "claudio@gmail.com",
         password: "j7ldd@bbb",
       })
-      // .expect(200);
+      .expect(200);
 
-      console.log("resultado >>>>>>", response.body);
-      
-
-    // expect(response.body).toHaveProperty('access_token');
+    expect(response.body).toHaveProperty('access_token');
   });
 
   it('/POST auth/login should return 401 for invalid password', async () => {
