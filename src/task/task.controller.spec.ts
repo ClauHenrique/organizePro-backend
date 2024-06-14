@@ -29,10 +29,10 @@ describe('TaskController', () => {
           { name: 'Task', schema: TaskSchema }, 
           { name: 'User', schema: UserSchema }
         ]),
-        JwtModule.register({
-          secret: 'dhh7824dwedhqhk378d23',
-          signOptions: { expiresIn: '24h' },
-        }),
+        // JwtModule.register({
+        //   secret: 'dhh7824dwedhqhk378d23',
+        //   signOptions: { expiresIn: '24h' },
+        // }),
         AuthModule,
       ],
       controllers: [TaskController],
