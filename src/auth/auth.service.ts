@@ -20,9 +20,7 @@ export class AuthService {
           throw new UnauthorizedException('invalid credentials');
         }
     
-        const validatePassword = await bcrypt.compare(login.password, user.password);
-
-        console.log("validar >>>>", validatePassword);
+        const validatePassword = await bcrypt.compare(login.password, user.password)
         
 
         if (!validatePassword) {
@@ -30,8 +28,6 @@ export class AuthService {
         }
 
         const payload = { email: user.email, sub: user._id };
-
-        console.log(">>>payload>>>", payload);
 
         return {
           access_token: await this.jwtService.signAsync(payload),

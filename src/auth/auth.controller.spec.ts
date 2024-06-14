@@ -70,7 +70,7 @@ describe('AuthController', () => {
       })
       // .expect(200);
 
-      console.log("resultado::::::::", response.body);
+      console.log("resultado >>>>>>", response.body);
       
 
     // expect(response.body).toHaveProperty('access_token');
