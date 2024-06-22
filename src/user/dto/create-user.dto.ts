@@ -3,19 +3,19 @@ import { IsEmail, IsString, Matches, MaxLength, MinLength } from 'class-validato
 export class CreateUserDto {
 
     @MinLength(3, {
-        message: 'username must contain at least 3 characters',
+        message: 'o nome de usuário deve conter pelo menos 3 caracteres',
     })
     @IsString()
     name: string;
 
     @Matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-        message: 'Password must contain at least 8 characters, one letter, one number, and one special character',
+        message: 'a senha deve conter letras, números e caracteres especiais',
       })
     @MinLength(8, {
-        message: 'the password must contain at least 8 characters',
+        message: 'a senha deve conter pelo menos 8 caracteres',
     })
     @MaxLength(15, {
-        message: 'password cannot contain more than 15 characters',
+        message: 'a senha não pode conter mais do que 8 caracteres',
     })
     @IsString()
     password: string;
