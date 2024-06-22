@@ -15,6 +15,9 @@ services:
       - 3000:3000
     volumes:
       - .:/app
+    environment:
+      - SECRET_KEY=dhh7824dwedhqhk378d23 
+      
     depends_on:
       - mongo
 

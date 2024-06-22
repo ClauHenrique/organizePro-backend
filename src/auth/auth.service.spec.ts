@@ -6,6 +6,7 @@ import { UnauthorizedException } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/eschema/user.schema';
 import { Model } from 'mongoose';
+import 'dotenv/config'
 
 
 describe('AuthService', () => {
@@ -21,7 +22,7 @@ describe('AuthService', () => {
         MongooseModule.forRoot('mongodb://mongo:27017/mydb'),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
         JwtModule.register({
-          secret: "dhh7824dwedhqhk378d23",
+          secret: 'dhh7824dwedhqhk378d23',
           signOptions: { expiresIn: '24h' },
         }),
       ],
@@ -56,7 +57,6 @@ describe('AuthService', () => {
       email: 'paul@gmail.com', 
       password: 'j7ldd@bbb'
     });
-  
     
     expect(result).toHaveProperty('access_token');
   });
