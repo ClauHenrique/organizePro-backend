@@ -37,40 +37,28 @@ Antes de cadastrar o usuário, precisamos verificar se os dados enviados pelo fr
 
 ```typescript
  // src/user/user.service.ts
- import { ConflictException } from '@nestjs/common';
- import * as bcrypt from 'bcrypt';
- import { CreateUserDto } from './dto/create-user.dto';
- import { User } from './schema/user.schema';
- import { Model } from 'mongoose';
- import { InjectModel } from '@nestjs/mongoose';
+async create(createUserDto: CreateUserDto): Promise<User> {
+    // verificar se ja existe um cadastro com esse email
+    const {email} = createUserDto
+    const verify = await this.userModel.findOne({email})
 
-export class UserService {
-     constructor(
-         @InjectModel(User.name) private userModel: Model<User>,
-     ) {}
+    if (verify) {
+      throw new ConflictException("Este usuario já existe")
+    }
+    
+    try {
+       // criptografar a senha
+      const hash = await bcrypt.hash(createUserDto.password, 8);
+      createUserDto.password = hash
 
-     async create(createUserDto: CreateUserDto): Promise<User> {
-         // Verificar se já existe um cadastro com esse email
-         const { email } = createUserDto;
-         const verify = await this.userModel.findOne({ email });
+      const createdUser = new this.userModel(createUserDto);
 
-         if (verify) {
-             throw new ConflictException("Este usuário já existe");
-         }
-
-         try {
-             // Criptografar a senha
-             const hash = await bcrypt.hash(createUserDto.password, 8);
-             createUserDto.password = hash;
-
-             const createdUser = new this.userModel(createUserDto);
-
-             return await createdUser.save();
-         } catch (error) {
-             throw new ConflictException("Este usuário já existe");
-         }
-     }
- }
+      return await createdUser.save();
+      
+    } catch (error) {
+      throw new ConflictException("Este usuario já existe")
+    }
+  }
  ```
 
  ## Esse método é composto por três partes principais:
@@ -81,7 +69,7 @@ export class UserService {
  const verify = await this.userModel.findOne({ email });
 
  if (verify) {
-     throw new ConflictException("Este usuário já existe");
+     throw new ConflictException("This user already exists");
  }
  ```
 
@@ -89,9 +77,6 @@ Para garantir que a aplicação aceite apenas um cadastro por email, durante a m
 
 ```typescript
  // src/user/schema/user.schema.ts
- import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
- import { Document } from 'mongoose';
-
  @Schema()
  export class User extends Document {
      @Prop()
