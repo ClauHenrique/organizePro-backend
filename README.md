@@ -12,6 +12,7 @@ Sim! Apesar de sistemas de gerenciamento de tarefas serem algo bem clichê, este
 - gerenciar conflitos nos horarios de agendamento das tarefas
 - receber notificações por email
 - relatorio com desmpenho de tarefas cumpridas/não cumpridas
+- criar um ambiente de testes
 
 # Como instalar e executar o projeto em sua máquina
 ### Opção 1
