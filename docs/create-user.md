@@ -43,7 +43,7 @@ async create(createUserDto: CreateUserDto): Promise<User> {
     const verify = await this.userModel.findOne({email})
 
     if (verify) {
-      throw new ConflictException("Este usuario já existe")
+      throw new ConflictException("This user already exists")
     }
     
     try {
@@ -56,7 +56,7 @@ async create(createUserDto: CreateUserDto): Promise<User> {
       return await createdUser.save();
       
     } catch (error) {
-      throw new ConflictException("Este usuario já existe")
+      throw new ConflictException("This user already exists")
     }
   }
  ```
@@ -109,6 +109,6 @@ Em seguida, criptografamos a senha do usuário para garantir a segurança de sua
 
      return await createdUser.save();
  } catch (error) {
-     throw new ConflictException("Este usuário já existe");
+     throw new ConflictException("This user already exists");
  }
 ```
