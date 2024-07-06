@@ -4,7 +4,15 @@ Este projeto é a parte backend de um sistema de gerenciamento de tarefas. Esse 
 
 Sim! Apesar de sistemas de gerenciamento de tarefas serem algo bem clichê, este é um projeto especial. Pretendo deixá-lo o mais próximo do funcionamento de um sistema em produção. E em breve estarei fazendo o deploy da aplicação e irei disponibilizar o link aqui.
 
-# 📑 Principais caracteristicas 
+## Documentação
+
+- [Cadastro de usuário](https://github.com/ClauHenrique/organizePro-backend/blob/main/docs/create-user.md)
+- [Login](https://github.com/ClauHenrique/organizePro-backend/blob/main/docs/login.md)
+- [Testes](https://github.com/ClauHenrique/organizePro-backend/blob/main/docs/testes.md)
+- [Como instalar e executar o projeto](#como-instalar-e-executar-o-projeto-em-sua-máquina)
+
+
+## 📑 Principais caracteristicas 
 - validar email
 - recuperação de senha
 - autenticação de usuario com JWT
@@ -14,18 +22,23 @@ Sim! Apesar de sistemas de gerenciamento de tarefas serem algo bem clichê, este
 - relatorio com desmpenho de tarefas cumpridas/não cumpridas
 - criar um ambiente de testes
 
-# Como instalar e executar o projeto em sua máquina
+## Como instalar e executar o projeto em sua máquina
 ### Opção 1
 Clone o projeto <br>
-No diretório raiz, execute:
-```bash
-  npm i
-```
+
 Crie o arquivo com as variáveis de ambiente:
 ```console
 Crie um arquivo `.env`
 Você pode seguir o exemplo do arquivo `.env.exemple` presente no diretório raiz.
-``` 
+```
+No diretório raiz, execute:
+```bash
+  npm i
+```
+```bash
+  npm run start
+```
+ 
 ### Opção 2
 - Se desejar, pode executar o projeto através de containers Docker.
 - Crie o arquivo com as variáveis de ambiente.
