@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,18 +15,25 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    // verificar se ja existe um cadastro com esse email
+    const {email} = createUserDto
+    const verify = await this.userModel.findOne({email})
+
+    if (verify) {
+      throw new ConflictException("Este usuario já existe")
+    }
+    
     try {
-      
-      // criptografar a senha
+       // criptografar a senha
       const hash = await bcrypt.hash(createUserDto.password, 8);
       createUserDto.password = hash
 
       const createdUser = new this.userModel(createUserDto);
 
       return await createdUser.save();
-    }
-    catch(err) {
-        throw new Error(`Unable to register user. ${err}`)
+      
+    } catch (error) {
+      throw new ConflictException("Este usuario já existe")
     }
   }
 
@@ -35,12 +42,7 @@ export class UserService {
   }
 
   async findOne(email: string): Promise<User> {
-    try {
       return await this.userModel.findOne({email})
-
-    } catch (err) {
-      throw new Error(`Unable to perform user search operation. ${err}`)
-    }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
