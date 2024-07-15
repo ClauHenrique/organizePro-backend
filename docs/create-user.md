@@ -97,7 +97,7 @@ Para garantir que a aplicação aceite apenas um cadastro por email, durante a m
 
 O cadastro do usuário no banco é realizado em um bloco **try e catch** caso a verificação anterior falhe ou essa parte do código seja executada antes que a primeira termine sua execução. <br> 
 Caso o MongoDB retorne um erro devido à duplicidade de emails, também retornamos uma exceção. <br>
-Em seguida, criptografamos a senha do usuário para garantir a segurança de suas informações e por último, salvamos as informações no banco de dados.
+Se não houver duplicidade de emails, criptografamos a senha do usuário para garantir a segurança de suas informações e por último, salvamos as informações no banco de dados.
 
 ```typescript
  try {
