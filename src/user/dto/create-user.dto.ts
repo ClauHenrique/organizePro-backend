@@ -14,9 +14,6 @@ export class CreateUserDto {
     @MinLength(8, {
         message: 'a senha deve conter pelo menos 8 caracteres',
     })
-    @MaxLength(15, {
-        message: 'a senha não pode conter mais do que 8 caracteres',
-    })
     @IsString()
     password: string;
   

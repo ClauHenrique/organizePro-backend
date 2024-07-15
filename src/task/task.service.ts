@@ -27,17 +27,17 @@ export class TaskService {
     return createdTask.save();
   }
 
-  async scheduledTaskAtGivenTime(startDate: Date, endDate: Date, userId: string): Promise<Task[]> {
+  async scheduledTaskAtGivenTime(_startDate: Date, _endDate: Date, _userId: string): Promise<Task[]> {
 
     const find = await this.taskModel.find({
       $and: [
-        {userId: userId},
+        {userId: _userId},
         {
         $or: [
-          { $and: [{startDate: { $lte: startDate}}, {endDate: { $gte: endDate}}]}, //datas conflitantes (inicio e fim) são as mesmas
-          { $and: [{startDate: { $lt: endDate}}, {endDate: { $gte: endDate}}]}, // o teminio de um tarefa está entre o inicio e o fim de uma outra tarefa
-          { $and: [{startDate: { $lte: startDate}}, {endDate: { $gt: startDate}}]}, // o inicio de uma tarefa está entre o inicio e o fim de outra
-          { $and: [{startDate: { $gte: startDate}}, {endDate: { $lte: endDate}}]}, // uma tarefa começa antes e termina depois de outra tarefa
+          { $and: [{startDate: { $lte: _startDate}}, {endDate: { $gte: _endDate}}]}, //datas conflitantes (inicio e fim) são as mesmas
+          { $and: [{startDate: { $lt: _endDate}}, {endDate: { $gte: _endDate}}]}, // o teminio de um tarefa está entre o inicio e o fim de uma outra tarefa
+          { $and: [{startDate: { $lte: _startDate}}, {endDate: { $gt: _startDate}}]}, // o inicio de uma tarefa está entre o inicio e o fim de outra
+          { $and: [{startDate: { $gte: _startDate}}, {endDate: { $lte: _endDate}}]}, // uma tarefa começa antes e termina depois de outra tarefa
         ]
       }
       ]

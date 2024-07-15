@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-      - claudio 
+      - develop 
   pull_request:
     branches:
       - main
-      - claudio
+      - develop
 
 jobs:
   continuous-integration:
