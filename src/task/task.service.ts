@@ -49,7 +49,12 @@ export class TaskService {
 
   findAll(userId: string): Promise<Task[]> {
 
-    return this.taskModel.find({userId}).exec()
+    return this.taskModel.find({userId: userId, status: 'a fazer'}).exec()
+  }
+
+  findOne(userId: string, taskId): Promise<Task> {
+
+    return this.taskModel.findOne({userId: userId, _id: taskId}).exec()
   }
 
 

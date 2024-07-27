@@ -22,6 +22,12 @@ export class TaskController {
     return this.taskService.findAll(userId);
   }
 
+  @Get(':id')
+  findOne(@Req() req: Request,  @Param('id') taskId: string) {
+    const userId = req['user'].sub
+    return this.taskService.findOne(userId, taskId);
+  }
+
 
   @Patch(':id')
   updateTask(@Body() updateTaskDto: UpdateTaskDto, @Req() req: Request, @Param('id') taskId: string) {
