@@ -5,6 +5,9 @@ import { Task } from './schema/task.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TaskSchedulingConflictException } from './exceptions/task-scheduling-conflict.exception';
+import { FilterTaskStatus } from './dto/filter-task.dto';
+
+
 
 @Injectable()
 export class TaskService {
@@ -47,9 +50,14 @@ export class TaskService {
   }
 
 
-  findAll(userId: string): Promise<Task[]> {
+  findAll(userId: string, filter: FilterTaskStatus): Promise<Task[]> {
+    
+    return this.taskModel.find({userId: userId, status: filter.status}).exec()
+  }
 
-    return this.taskModel.find({userId}).exec()
+  findOne(userId: string, taskId): Promise<Task> {
+
+    return this.taskModel.findOne({userId: userId, _id: taskId}).exec()
   }
 
 

@@ -3,6 +3,7 @@ import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { FilterTaskStatus } from './dto/filter-task.dto';
 
 @UseGuards(AuthGuard)
 @Controller('task')
@@ -16,10 +17,16 @@ export class TaskController {
     return this.taskService.create(createTaskDto);
   }
 
-  @Get()
-  findAll(@Req() req: Request) {
+  @Post('/findall')
+  findAll(@Req() req: Request, @Body() filterSatus: FilterTaskStatus) {
     const userId = req['user'].sub
-    return this.taskService.findAll(userId);
+    return this.taskService.findAll(userId, filterSatus);
+  }
+
+  @Get(':id')
+  findOne(@Req() req: Request,  @Param('id') taskId: string) {
+    const userId = req['user'].sub
+    return this.taskService.findOne(userId, taskId);
   }
 
 
