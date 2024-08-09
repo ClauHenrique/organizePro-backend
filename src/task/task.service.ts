@@ -36,6 +36,12 @@ export class TaskService {
       $and: [
         {userId: _userId},
         {
+          $or: [
+            {status: 'a fazer'}, // serão considerados horarios conflitantes apenas aqueles
+            {status: 'fazendo'}, // que entrarem em conflito com os de tarefas cujo o status seja
+          ]                      // "a fazer" ou "fazendo"
+        },
+        {
         $or: [
           { $and: [{startDate: { $lte: _startDate}}, {endDate: { $gte: _endDate}}]}, //datas conflitantes (inicio e fim) são as mesmas
           { $and: [{startDate: { $lt: _endDate}}, {endDate: { $gte: _endDate}}]}, // o teminio de um tarefa está entre o inicio e o fim de uma outra tarefa
