@@ -8,6 +8,12 @@ import { TaskSchedulingConflictException } from './exceptions/task-scheduling-co
 import { FilterTaskStatus } from './dto/filter-task.dto';
 
 
+enum filterOptions {
+  AFAZER = "a fazer",
+  FAZENDO = "fazendo",
+  CONCLUIDO = "concluida",
+}
+
 
 @Injectable()
 export class TaskService {
@@ -56,9 +62,19 @@ export class TaskService {
   }
 
 
-  findAll(userId: string, filter: FilterTaskStatus): Promise<Task[]> {
+  filterTasks(userId: string, filter: FilterTaskStatus): Promise<Task[]> {
     
     return this.taskModel.find({userId: userId, status: filter.status}).exec()
+  }
+
+
+  findTasksToReorganize(userId: string): Promise<Task[]> {
+    
+    return this.taskModel.find({
+      userId: userId,
+      status: { $ne: filterOptions.CONCLUIDO }
+    
+    }).exec()
   }
 
   findOne(userId: string, taskId): Promise<Task> {

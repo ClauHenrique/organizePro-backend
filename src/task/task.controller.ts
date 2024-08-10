@@ -18,9 +18,15 @@ export class TaskController {
   }
 
   @Post('/findall')
-  findAll(@Req() req: Request, @Body() filterSatus: FilterTaskStatus) {
+  filterTasks(@Req() req: Request, @Body() filterSatus: FilterTaskStatus) {
     const userId = req['user'].sub
-    return this.taskService.findAll(userId, filterSatus);
+    return this.taskService.filterTasks(userId, filterSatus);
+  }
+
+  @Get()
+  findTasksToReorganize(@Req() req: Request) {
+    const userId = req['user'].sub
+    return this.taskService.findTasksToReorganize(userId);
   }
 
   @Get(':id')
