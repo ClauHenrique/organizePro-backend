@@ -6,7 +6,6 @@ import { UnauthorizedException } from '@nestjs/common';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/eschema/user.schema';
 import { Model } from 'mongoose';
-import 'dotenv/config'
 
 
 describe('AuthService', () => {
